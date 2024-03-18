@@ -1,2 +1,7 @@
-package dto;public record ErrorEntity() {
+package dto;
+
+public record ErrorEntity(
+        String code,
+        String message
+) {
 }
