@@ -1,6 +1,6 @@
 package sully.group.sa.controller.advice;
 
-import dto.ErrorEntity;
+import sully.group.sa.dto.ErrorEntity;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

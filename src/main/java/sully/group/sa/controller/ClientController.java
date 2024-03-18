@@ -1,16 +1,13 @@
 package sully.group.sa.controller;
 
-import dto.ErrorEntity;
-import jakarta.persistence.EntityNotFoundException;
+import sully.group.sa.dto.ClientDTO;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sully.group.sa.entites.Client;
 import sully.group.sa.services.Clientservice;
 
-import java.util.List;
+import java.util.stream.Stream;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -29,7 +26,7 @@ public class ClientController {
 
     }
     @GetMapping(produces = APPLICATION_JSON_VALUE)
-    public List<Client> clientList() {
+    public Stream<ClientDTO> clientList() {
        return this.clientservice.clientList();
     }
     @GetMapping(path = "{id}", produces = APPLICATION_JSON_VALUE)

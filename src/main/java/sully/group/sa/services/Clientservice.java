@@ -1,20 +1,26 @@
 package sully.group.sa.services;
 
+import sully.group.sa.dto.ClientDTO;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import sully.group.sa.entites.Client;
+import sully.group.sa.mapper.ClientDTOMapper;
 import sully.group.sa.repository.ClientRepository;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class Clientservice {
 
     private ClientRepository clientRepository;
+    private final ClientDTOMapper clientDTOMapper;
 
-    public Clientservice(ClientRepository clientRepository) {
+
+    public Clientservice(ClientRepository clientRepository, ClientDTOMapper clientDTOMapper) {
         this.clientRepository = clientRepository;
+
+        this.clientDTOMapper = clientDTOMapper;
     }
 
     public void createClient(Client client){
@@ -30,8 +36,9 @@ public class Clientservice {
 
     }
 
-    public List<Client> clientList() {
-      return this.clientRepository.findAll() ;
+    public Stream<ClientDTO> clientList() {
+      return this.clientRepository.findAll()
+              .stream().map(clientDTOMapper);
     }
 
 
