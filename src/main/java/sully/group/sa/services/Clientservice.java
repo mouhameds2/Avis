@@ -42,11 +42,14 @@ public class Clientservice {
     }
 
 
-    public Client getClientId(int id) {
-        Optional<Client> optionalClient = this.clientRepository.findById(id);
-        return optionalClient.orElseThrow(
-                () -> new EntityNotFoundException( "le client "+ id+ " n'existe pas")
-        );
+    public  Stream<ClientDTO> getClientId(int id) {
+        Stream<ClientDTO> optionalClient = this.clientRepository.findById(id)
+                .stream().map(clientDTOMapper);
+        if (optionalClient==null){
+            throw new EntityNotFoundException( "le client "+ id+ " n'existe pas");
+        }
+        return optionalClient;
+
     }
 
     public Client readOrCreateClient(Client clientAcreer) {
@@ -60,13 +63,24 @@ public class Clientservice {
         return ClientDansDB;
     }
 
+    public Client getClientByIdPourEdit(int id){
+        Optional <Client> optionalClient2 = this.clientRepository.findById(id);
+        return optionalClient2.orElseThrow(
+                ()-> new EntityNotFoundException("le client " + id + " n'existe pas! Merci de modifier un client qui existe")
+
+        );
+    }
+
 
     public void editClient(int id, Client client) {
-        Client clientAedit = this.getClientId(id);
-        if (clientAedit.getId() == client.getId()){
-            clientAedit.setEmail(client.getEmail());
-            clientAedit.setPhone(client.getPhone());
-            this.clientRepository.save(clientAedit);
+
+
+        Client clientAediter = this.getClientByIdPourEdit(id);
+
+        if ((clientAediter.getId() == client.getId())){
+            clientAediter.setEmail(client.getEmail());
+            clientAediter.setPhone(client.getPhone());
+            this.clientRepository.save(clientAediter);
         }
     }
 }

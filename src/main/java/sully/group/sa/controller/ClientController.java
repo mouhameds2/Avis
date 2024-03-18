@@ -30,7 +30,7 @@ public class ClientController {
        return this.clientservice.clientList();
     }
     @GetMapping(path = "{id}", produces = APPLICATION_JSON_VALUE)
-    public Client getClientId(@PathVariable int id){
+    public Stream<ClientDTO> getClientId(@PathVariable int id){
 
         return  this.clientservice.getClientId(id);
 
