@@ -19,8 +19,14 @@ public class Clientservice {
 
     public void createClient(Client client){
         Client mailClientDansDB= this.clientRepository.findByEmail(client.getEmail());
-        if (mailClientDansDB==null)
+        if (mailClientDansDB==null) {
+            System.out.println("===== le client " + client.getEmail() + " n'existe pas   ======");
+
             this.clientRepository.save(client);
+        }
+        else {
+            throw new RuntimeException("===== le client avec l'e-mail " +"'"+ client.getEmail() +"'"+ " existe déjà  ======");
+        }
 
     }
 
@@ -36,13 +42,14 @@ public class Clientservice {
         );
     }
 
-    public Client readOrCreateClient(Client clientAcrer) {
-        Client ClientDansDB= this.clientRepository.findByEmail(clientAcrer.getEmail());
+    public Client readOrCreateClient(Client clientAcreer) {
+        Client ClientDansDB= this.clientRepository.findByEmail(clientAcreer.getEmail());
         if (ClientDansDB==null) {
             System.out.println("===== Nouveau client créé ======" );
-            return this.clientRepository.save(clientAcrer);
+            return this.clientRepository.save(clientAcreer);
+        }else {
+            new EntityNotFoundException("===== le client " + ClientDansDB.getEmail() + " existe déja en  ======");
         }
-        System.out.println("===== le client " + ClientDansDB.getEmail() + " existe déja en  ======");
         return ClientDansDB;
     }
 

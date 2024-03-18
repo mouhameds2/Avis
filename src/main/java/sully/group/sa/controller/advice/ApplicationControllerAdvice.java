@@ -15,4 +15,9 @@ public class ApplicationControllerAdvice {
     public @ResponseBody ErrorEntity handleException(EntityNotFoundException exception){
         return new ErrorEntity(null,exception.getMessage());
     }
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler({RuntimeException.class})
+    public @ResponseBody ErrorEntity handleException(RuntimeException exception){
+        return new ErrorEntity(null,exception.getMessage());
+    }
 }
